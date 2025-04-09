@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from .models import *
 from django.contrib import messages
+from django.shortcuts import get_object_or_404
 
 def home(request):
     key = request.session.get('session_key')
@@ -96,7 +97,7 @@ def booking(request, phone):
 
 def bookings(request):
     key = request.session.get('session_key')
-    user = User.objects.get(phone=key)
+    user = get_object_or_404(User, phone=key)
     bookings = Booking.objects.filter(user=user)
     return render(request, 'user/bookings.html', {'bookings':bookings, 'user':user})
 
